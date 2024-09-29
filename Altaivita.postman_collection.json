@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "eccfadad-b0bc-4c2b-8897-bf106f001c20",
+		"name": "Altaivita",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33342596"
+	},
+	"item": [
+		{
+			"name": "Add_to_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "product_id",
+							"value": "{{product_id}}",
+							"type": "text"
+						},
+						{
+							"key": "S_wh",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "quantity",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "S_cur_code",
+							"value": "usd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}add_products_to_cart_from_preview.php",
+					"host": [
+						"{{base_url}}add_products_to_cart_from_preview",
+						"php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change_quantity_in_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"New quantity is 2\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.new_quantity).to.eql(2);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "product_id",
+							"value": "{{product_id}}",
+							"type": "text"
+						},
+						{
+							"key": "S_wh",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "quantity",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "S_cur_code",
+							"value": "usd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}add_products_to_cart_from_preview.php",
+					"host": [
+						"{{base_url}}add_products_to_cart_from_preview",
+						"php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_from_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Quantity to delete is 2\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.quantity_to_delete).to.eql(\"2\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "product_id",
+							"value": "{{product_id}}",
+							"type": "text"
+						},
+						{
+							"key": "S_wh",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "S_cur_code",
+							"value": "usd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}delete_products_from_cart_preview.php",
+					"host": [
+						"{{base_url}}delete_products_from_cart_preview",
+						"php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://altaivita.ru/engine/cart/",
+			"type": "string"
+		},
+		{
+			"key": "product_id",
+			"value": "4593",
+			"type": "string"
+		}
+	]
+}
