@@ -15,7 +15,8 @@ def test_write_text_in_search_box():
     result = main.get_location_text(4,
                            "(//a[@class='link-blue'])[2]",
                            "Мумиё алтайское в капсулах, 60 капсул по 500 мг")
-    assert result == "Мумиё алтайское в капсулах, 60 капсул по 500 мг"
+    with allure.step("Check if product was added to the cart"):
+        assert result == "Мумиё алтайское в капсулах, 60 капсул по 500 мг"
 
 @allure.severity(Severity.CRITICAL)
 @allure.title("Add to cart")
@@ -30,4 +31,5 @@ def test_add_to_cart():
     result = main.get_location_text(4,
                            "(//div[@class='count-box'])[1]",
                            "1")
-    assert result == "1"
+    with allure.step("Check if the cart icon has changed"):
+        assert result == "1"
