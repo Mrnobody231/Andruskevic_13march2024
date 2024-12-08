@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "eccfadad-b0bc-4c2b-8897-bf106f001c20",
+		"name": "Megafon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33342596"
+	},
+	"item": [
+		{
+			"name": "Add_to_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var key = \"productId\"\r",
+							"var value = pm.response.json().payload.order.basket.items[0].id\r",
+							"pm.collectionVariables.set(key, value);\r",
+							"\r",
+							"var key = \"clientId\"\r",
+							"var value = pm.response.json().payload.order.clientId\r",
+							"pm.collectionVariables.set(key, value);\r",
+							"\r",
+							"var key = \"orderId\"\r",
+							"var value = pm.response.json().payload.order.orderId\r",
+							"pm.collectionVariables.set(key, value);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"operations\": [\r\n    {\r\n      \"operation\": \"OrderAddGoodToBasket\",\r\n      \"arguments\": {\r\n        \"goodId\": {{productId}},\r\n        \"quantity\": 1\r\n      }\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}batch/order",
+					"host": [
+						"{{base_url}}batch"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change_quantity_in_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"New amount is 2\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"pm.expect(responseData.payload.order.basket.items[0].amount).to.eql(2);})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}order/{{orderId}}/basket/1/quantity?clientId={{clientId}}",
+					"host": [
+						"{{base_url}}order"
+					],
+					"path": [
+						"{{orderId}}",
+						"basket",
+						"1",
+						"quantity"
+					],
+					"query": [
+						{
+							"key": "clientId",
+							"value": "{{clientId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_from_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"If deleted 'true'\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.success).to.eql(true);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}order/{{orderId}}/basket/1/remove?clientId={{clientId}}",
+					"host": [
+						"{{base_url}}order"
+					],
+					"path": [
+						"{{orderId}}",
+						"basket",
+						"1",
+						"remove"
+					],
+					"query": [
+						{
+							"key": "clientId",
+							"value": "{{clientId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://moscow.shop.megafon.ru/public-api/checkout/v2/",
+			"type": "string"
+		},
+		{
+			"key": "productId",
+			"value": ""
+		},
+		{
+			"key": "clientId",
+			"value": ""
+		},
+		{
+			"key": "orderId",
+			"value": ""
+		}
+	]
+}
