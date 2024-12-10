@@ -1,30 +1,22 @@
-1. Выведите все уникальные названия продуктов
-SELECT DISTINCT product_name
-FROM Products
+1. Список уникальных классов. Вывести только названия
+SELECT DISTINCT class_name
+FROM visits;
 
-2. Выведите id, название и стоимость продуктов с содержанием клетчатки (fiber) более 5 граммов.
-SELECT p.product_id, p.product_name, p.price
-FROM Products AS p
-JOIN Nutritional_Information AS n ON p.product_id = n.product_id
-WHERE n.fiber > 5
+2. Количество часов, проведенных на занятиях для каждого пользователя. 
+Вывести фамилию, имя и количество часов.
+SELECT u.user_surname, u.user_name, SUM(v.hours_spent)
+FROM user AS u
+JOIN visits AS v ON u.id_user = v.id_user
+GROUP BY u.user_surname, u.user_name;
 
-3. Выведите название продукта с самым высоким содержанием белка (protein).
-SELECT p.product_name
-FROM Products AS p
-JOIN Nutritional_Information AS n ON p.product_id = n.product_id
-ORDER BY n.protein DESC
-LIMIT 1
+3. Средний возраст пользователей, посещающих класс Flex.
+SELECT AVG(u.age)
+FROM user AS u
+JOIN visits AS v ON u.id_user = v.id_user
+WHERE v.class_name = 'Flex';
 
-4. Подсчитайте общую сумму калорий для продуктов каждой категории, но не учитывайте продукты с нулевым жиром (fat = 0).
-Выведите id категории, сумму калорий.
-SELECT p.category_id, SUM(p.calories) 
-FROM Products AS p
-JOIN Nutritional_Information AS n ON p.product_id = n.product_id
-WHERE n.fat > 0
-GROUP BY p.category_id
-
-5. Рассчитайте среднюю цену товаров каждой категории. Выведите название категории, среднюю цену.
-SELECT c.category_name, AVG(p.price) 
-FROM Products AS p
-JOIN Categories AS c ON p.category_id = c.category_id
-GROUP BY c.category_name
+4. Вывести пользователей, которые ни разу не посещали бассейн (Swimming pool).
+SELECT u.user_name, u.user_surname 
+FROM users AS u
+Left JOIN visits AS v ON u.id_user = v.id_user AND v.class_name = 'Swimming pool'
+WHERE v.id_user IS NULL;
